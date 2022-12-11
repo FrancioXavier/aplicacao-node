@@ -1,26 +1,21 @@
 const express = require("express");
 const app = express();
+const handlebars = require("express-handlebars");
 
-app.get("/", function(req, res){
-    res.sendFile(__dirname + "/static/index.html");
-});
+//CONFIG
+    //Template engine
+        app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
+        app.set('view engine', 'handlebars')
 
-app.get("/sobre", function(req, res){
-    res.sendFile(__dirname + "/static/sobre.html");
-});
-
-app.get("/blog", function(req, res){
-    res.send("Olha outra URL ai");
-});
-
-app.get("/ola/:nome/:cargo", function(req, res){
-    res.send(`Seu nome eh: ${req.params['nome']} <br> 
-              Seu cargo é ${req.params.cargo}`);
-
-});
+    //Conexão com o banco de dados
+        const Sequelize = require("sequelize");
+        const sequelize = new Sequelize('sistemadecadastro', 'root', 'FdevPy-2708', {
+            host: 'localhost',
+            dialect: 'mysql'
+        });
 
 
 
 app.listen(5503, function(){
-    console.log("Servidor rodando na URL https://localhost:5503");
+    console.log("Servidor rodando na URL http://localhost:5503");
 }); 
