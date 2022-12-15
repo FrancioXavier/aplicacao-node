@@ -12,13 +12,6 @@ const bodyParser = require("body-parser")
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
 
-    //Conexão com o banco de dados
-        const Sequelize = require("sequelize");
-        const sequelize = new Sequelize('sistemadecadastro', 'root', 'FdevPy-2708', {
-            host: 'localhost',
-            dialect: 'mysql'
-        });
-
 //ROTAS
 
     app.get('/cadastro', function(req, res){
