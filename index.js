@@ -14,6 +14,16 @@ const handlebars = require("express-handlebars");
             dialect: 'mysql'
         });
 
+//ROTAS
+
+    app.get('/cadastro', function(req, res){
+        res.render('form') //renderiza um template handlebars
+    })
+
+    app.post('/poscad', function(req, res){
+        res.send('CADASTRO RECEBIDO COM SUCESSO')
+    })//só pode ser acessada através da chamada do method: POOST
+
 
 
 app.listen(5503, function(){
