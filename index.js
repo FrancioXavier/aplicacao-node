@@ -16,9 +16,10 @@ const Post = require('./models/Post');
 //ROTAS
 
     app.get('/', function(req, res){
-        res.render('home');
-        
-    })
+        Post.findAll({order: [['id', 'DESC']]}).then(function(posts){
+            res.render('home', {posts: posts});
+        })
+    }) //pega todos os dados de Post, ordena em ordem decrescente e chama o template home
 
     app.get('/cadastro', function(req, res){
         res.render('form'); //renderiza um template handlebars
@@ -28,9 +29,9 @@ const Post = require('./models/Post');
         Post.create({
             titulo: req.body.titulo,
             conteudo: req.body.conteudo
-        }).then(function(){
+        }).then(function(){ //a função then é chamada quando o create funciona
             res.redirect('/');
-        }).catch(function(erro){
+        }).catch(function(erro){ // já o catch aciona quando o create der erro
             res.send(`Erro ao criar postagem: ${erro}`);
         })
     }); //só pode ser acessada através da chamada do method: POOST
