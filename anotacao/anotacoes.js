@@ -14,3 +14,5 @@
     O MÉTODO POST PASSA OS DADOS DE OUTRA FORMA QUE NÃO PELA URL
 
 */
+
+//app.post para formulários
