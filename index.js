@@ -36,6 +36,42 @@ const Post = require('./models/Post');
         })
     }); //só pode ser acessada através da chamada do method: POOST
 
+    app.get('/deletar/:id', function(req, res){
+        Post.destroy({where: {'id': req.params.id}}).then(function(){ //Destrói o post onde o id é igual ao passo no parametro da url
+            res.send('Postagem deletada com sucesso');
+        }).catch(function(erro){
+            res.send(`Erro ao deletar postagem: ${erro}`);
+        })
+    })
+
+    app.get('/editar/:id', function(req, res){
+        Post.findByPk(req.params.id).then(
+            post => {
+                res.render('update-form', {
+                    id: req.params.id,
+                    titulo: post.titulo,
+                    conteudo: post.conteudo
+                })
+            }
+        ).catch(erro => {
+            res.send('Post não encontrado!');
+        }) // Encontra um post por meio da Primary Key(id), ao achar, chama uma callback function que renderiza
+    }) // o update-form e passa as informações ATUAIS sobre cada campo
+
+    app.post('/editado/:id/', function(req, res){
+        Post.update({
+            titulo: req.body.titulo,
+            conteudo: req.body.conteudo
+        },
+        {
+            where: {id: req.params.id}
+        }).then(function(){
+            res.redirect('/');
+        }).catch(err => {
+            res.send(`Erro ao editar formulário: ${err}`);
+        });
+    }) //APÓS atualizar e clicar, o action chama o app.post acima, atualiza conforme o usuário digitou no body
+        // do update-form e faz o update onde o id é igual ao parametro da url, ao final, redireciona ao home
 
 
 app.listen(5503, function(){
